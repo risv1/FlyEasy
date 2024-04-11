@@ -31,4 +31,5 @@ export const users = pgTable("users", {
     password: text("password").notNull(),
     createdAt: text("created_at").notNull(),
     updatedAt: text("updated_at").notNull(),
+    role: text("role").notNull(),
 });

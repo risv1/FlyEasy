@@ -1,10 +1,11 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { HttpException, Injectable, Res, Response } from "@nestjs/common";
 import { UserDto } from "src/dto/users.dto";
 import { db } from "src/database/db";
 import { users } from "src/database/schema";
 import { v4 as uuid } from "uuid";
 import * as bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
+import * as jwt from "jsonwebtoken";
 
 @Injectable()
 export class AuthService {
@@ -28,6 +29,7 @@ export class AuthService {
             password: String(hashedPassword),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            role: "user"
         }
 
         const insertUser = await db.insert(users).values(newUser)
@@ -38,11 +40,11 @@ export class AuthService {
         return { message: "User registered successfully", user: newUser};
     }
 
-    async loginUser(user: UserDto){
-        if(!user.email || !user.password){
+    async loginUser(user: {email: string, password: string}, res: any){
+        if(!user.email || !user.password ){
             throw new HttpException("Missing required fields", 400);
         }
-        const [userExists] = await db.select().from(users).where(eq(users.email, user.email))
+        const [userExists]: UserDto[] = await db.select().from(users).where(eq(users.email, user.email))
         if (!userExists) {
             throw new HttpException("User not found", 404);
         }
@@ -52,8 +54,16 @@ export class AuthService {
             throw new HttpException("Invalid password", 401);
         }
 
-        return { message: "User logged in successfully", user: userExists};
+        const token = jwt.sign({ name: userExists.name, email: userExists.email, role: userExists.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.cookie("token", token, { httpOnly: true });
 
+        return res.json({ message: "Login successful", user: userExists});
+
+    }
+
+    async logoutUser(@Res() res: any){
+        res.clearCookie("token");
+        return res.json({ message: "Logout successful"});
     }
 
 }
