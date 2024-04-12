@@ -37,7 +37,10 @@ export class AuthService {
             throw new HttpException("Failed to insert user", 500);
         }
 
-        return { message: "User registered successfully", user: newUser};
+        return { message: "User registered successfully", user: {
+            name: newUser.name,
+            email: newUser.email,
+        }};
     }
 
     async loginUser(user: {email: string, password: string}, res: any){
@@ -54,14 +57,22 @@ export class AuthService {
             throw new HttpException("Invalid password", 401);
         }
 
-        const token = jwt.sign({ name: userExists.name, email: userExists.email, role: userExists.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: userExists.id, name: userExists.name, email: userExists.email, role: userExists.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
         res.cookie("token", token, { httpOnly: true });
 
-        return res.json({ message: "Login successful", user: userExists});
+        return res.json({ message: "Login successful", user: {
+            name: userExists.name,
+            email: userExists.email,
+        }});
 
     }
 
-    async logoutUser(@Res() res: any){
+    async logoutUser(res: any){
+        const token = res.cookies.token;
+        if (!token) {
+            throw new HttpException("No token provided", 401);
+        }
+
         res.clearCookie("token");
         return res.json({ message: "Logout successful"});
     }

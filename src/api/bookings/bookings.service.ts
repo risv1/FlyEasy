@@ -22,6 +22,9 @@ export class BookingsService {
     if (!user) {
       throw new UnauthorizedException('Invalid token');
     }
+    if (!user || !user.id || !user.name || !user.email) {
+      throw new UnauthorizedException('Invalid token');
+    }
 
     const [selectedFlight]: FlightDto[] = await db
       .select()
@@ -39,6 +42,7 @@ export class BookingsService {
 
     const bookingData = {
       id: String(uuid()),
+      flightId: String(selectedFlight.id),
       passengerId: String(user.id),
       passengerName: String(user.name),
       passengerEmail: String(user.email),
@@ -63,7 +67,11 @@ export class BookingsService {
       throw new HttpException('Failed to create booking', 500);
     }
 
-    return { message: 'Booking created successfully' };
+    return { message: 'Booking created successfully', booking: {
+      passengerName: user.name,
+      passengerEmail: user.email,
+      status: 'CONFIRMED',
+    }};
   }
 
   async getBookings(request: any) {

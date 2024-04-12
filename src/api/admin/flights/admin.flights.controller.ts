@@ -21,7 +21,6 @@ export class AdminFlightsController {
 
     @Patch("/flights/:id")
     @UseGuards(AdminGuard)
-    @UsePipes(new ZodValidationPipe(FlightSchema))
     updateFlight(@Body() flight: FlightDto, @Param('id') id: string){
         try{
         return this.adminFlightsService.updateFlight(flight, id);
