@@ -1,5 +1,5 @@
 {
-  "id": "136adcdf-cced-4f78-970c-8c0910f7bb04",
+  "id": "2af7dadf-9d53-47d0-8d79-9b2b2184e1d6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -16,6 +16,12 @@
         },
         "flight_id": {
           "name": "flight_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "passenger_id": {
+          "name": "passenger_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -59,6 +65,19 @@
           "tableTo": "flights",
           "columnsFrom": [
             "flight_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "bookings_passenger_id_users_id_fk": {
+          "name": "bookings_passenger_id_users_id_fk",
+          "tableFrom": "bookings",
+          "tableTo": "users",
+          "columnsFrom": [
+            "passenger_id"
           ],
           "columnsTo": [
             "id"
@@ -182,6 +201,12 @@
         },
         "updated_at": {
           "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
           "type": "text",
           "primaryKey": false,
           "notNull": true

@@ -4,6 +4,7 @@ export const BookingSchema = z
   .object({
     id: z.string().length(36),
     flightId: z.string().length(36),
+    passengerId: z.string().length(36),
     passengerName: z.string(),
     passengerEmail: z.string().email(),
     status: z.string(),
