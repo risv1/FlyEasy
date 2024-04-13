@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
@@ -10,7 +15,10 @@ export class AdminGuard implements CanActivate {
     }
 
     try {
-      const user: any = await jwt.verify(request.cookies.token, process.env.JWT_SECRET);
+      const user: any = await jwt.verify(
+        request.cookies.token,
+        process.env.JWT_SECRET,
+      );
       if (!user) {
         return false;
       }

@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.setGlobalPrefix('api');
-  const config = app.get(ConfigService)
+  const config = app.get(ConfigService);
   await app.listen(config.get('PORT') || 8000);
 }
 

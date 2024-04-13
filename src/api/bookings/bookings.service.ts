@@ -67,11 +67,14 @@ export class BookingsService {
       throw new HttpException('Failed to create booking', 500);
     }
 
-    return { message: 'Booking created successfully', booking: {
-      passengerName: user.name,
-      passengerEmail: user.email,
-      status: 'CONFIRMED',
-    }};
+    return {
+      message: 'Booking created successfully',
+      booking: {
+        passengerName: user.name,
+        passengerEmail: user.email,
+        status: 'CONFIRMED',
+      },
+    };
   }
 
   async getBookings(request: any) {

@@ -4,23 +4,30 @@
 
 Built using [Nest](https://github.com/nestjs/nest).
 
-# Fly Easy - Flight Booking System
+# FlyEasy - Flight Booking System
 
-Fly Easy is a flight booking system that allows users to search for flights, book tickets, and manage their bookings.
-
-Built 
+FlyEasy is a flight booking system that allows users to search for flights, book tickets, and manage their bookings.
 
 ### Installation
 
 1. Clone the repository:
-`git clone https://github.com/yourusername/flyeasy.git
 
-cd flyeasy npm install
+`git clone https://github.com/risv1/flyeasy.git`
 
-DB_URL=your_database_connection_string
+2. Install dependencies:
 
-pnpm start
-`
+`cd flyeasy pnpm install` 
+
+3. Set environment variables:
+
+`DB_URL=your_database_connection_string`, \
+`JWT_SECRET=your_jwt_secret`, \
+`PORT=your_port` 
+
+4. Run the application: 
+
+`pnpm start`
+
 
 ## Usage
 

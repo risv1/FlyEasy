@@ -13,11 +13,6 @@ import { AdminUserService } from './users/admin.users.service';
     AdminBookingsController,
     AdminUserController,
   ],
-  providers: [
-    AdminFlightsService, 
-    AdminBookingService, 
-    AdminUserService
-  ],
+  providers: [AdminFlightsService, AdminBookingService, AdminUserService],
 })
-
 export class AdminModule {}
